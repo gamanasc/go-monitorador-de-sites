@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 )
 
@@ -15,7 +16,7 @@ func main() {
 	// Em Go, o switch não precisa de break
 	switch comando {
 	case 1:
-		fmt.Println("Monitorando...")
+		iniciaMonitoramento()
 	case 2:
 		fmt.Println("Exibindo logs...")
 	case 0:
@@ -48,4 +49,11 @@ func exibeMenu() {
 	fmt.Println("1 - Iniciar monitoramento")
 	fmt.Println("2 - Exibir logs")
 	fmt.Println("0 - Sair do programa")
+}
+
+func iniciaMonitoramento() {
+	fmt.Println("Monitorando...")
+	site := "https://httpbin.org/status/200"
+	resp, _ := http.Get(site)
+	fmt.Println(resp)
 }
