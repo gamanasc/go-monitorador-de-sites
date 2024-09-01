@@ -9,22 +9,26 @@ import (
 func main() {
 
 	exibeIntroducao()
-	exibeMenu()
 
-	comando := leComando()
+	// For sem parâmetros roda indefinidamente
+	for {
+		exibeMenu()
 
-	// Em Go, o switch não precisa de break
-	switch comando {
-	case 1:
-		iniciaMonitoramento()
-	case 2:
-		fmt.Println("Exibindo logs...")
-	case 0:
-		fmt.Println("Saindo...")
-		os.Exit(0)
-	default:
-		fmt.Println("Não conheço este comando")
-		os.Exit(-1)
+		comando := leComando()
+
+		// Em Go, o switch não precisa de break
+		switch comando {
+		case 1:
+			iniciaMonitoramento()
+		case 2:
+			fmt.Println("Exibindo logs...")
+		case 0:
+			fmt.Println("Saindo...")
+			os.Exit(0)
+		default:
+			fmt.Println("Não conheço este comando")
+			os.Exit(-1)
+		}
 	}
 
 }
@@ -53,7 +57,12 @@ func exibeMenu() {
 
 func iniciaMonitoramento() {
 	fmt.Println("Monitorando...")
-	site := "https://httpbin.org/status/200"
+	site := "https://httpbin.org/status/404"
 	resp, _ := http.Get(site)
-	fmt.Println(resp)
+
+	if resp.StatusCode == 200 {
+		fmt.Println("Site:", site, "foi carregado com sucesso!")
+	} else {
+		fmt.Println("Site:", site, "está com problemas. Status code:", resp.StatusCode)
+	}
 }
