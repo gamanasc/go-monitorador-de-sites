@@ -19,4 +19,16 @@ func main() {
 
 	fmt.Println("O comando escolhido foi: ", comando)
 
+	// Em Go, o switch não precisa de break
+	switch comando {
+	case 1:
+		fmt.Println("Monitorando...")
+	case 2:
+		fmt.Println("Exibindo logs...")
+	case 0:
+		fmt.Println("Saindo...")
+	default:
+		fmt.Println("Não conheço este comando")
+	}
+
 }
