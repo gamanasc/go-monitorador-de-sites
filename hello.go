@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -57,7 +58,26 @@ func exibeMenu() {
 
 func iniciaMonitoramento() {
 	fmt.Println("Monitorando...")
-	site := "https://httpbin.org/status/404"
+	sites := []string{
+		"https://httpbin.org/status/404",
+		"https://httpbin.org/status/200",
+		"https://httpbin.org/status/500",
+		"https://httpbin.org/status/200"}
+
+	for i := 0; i < 5; i++ {
+		// For range é o equivalente ao foreach
+		for i, site := range sites {
+			fmt.Println("Testando site", i, ":", site)
+			testaSite(site)
+		}
+		time.Sleep(5 * time.Second)
+	}
+
+	fmt.Println()
+
+}
+
+func testaSite(site string) {
 	resp, _ := http.Get(site)
 
 	if resp.StatusCode == 200 {
