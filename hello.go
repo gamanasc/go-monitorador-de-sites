@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -13,6 +16,7 @@ const delay = 5
 func main() {
 
 	exibeIntroducao()
+	leSitesDoArquivo()
 
 	// For sem parâmetros roda indefinidamente
 	for {
@@ -62,11 +66,12 @@ func exibeMenu() {
 
 func iniciaMonitoramento() {
 	fmt.Println("Monitorando...")
-	sites := []string{
-		"https://httpbin.org/status/404",
-		"https://httpbin.org/status/200",
-		"https://httpbin.org/status/500",
-		"https://httpbin.org/status/200"}
+	sites := leSitesDoArquivo()
+	// sites := []string{
+	// 	"https://httpbin.org/status/404",
+	// 	"https://httpbin.org/status/200",
+	// 	"https://httpbin.org/status/500",
+	// 	"https://httpbin.org/status/200"}
 
 	for i := 0; i < monitoramentos; i++ {
 		// For range é o equivalente ao foreach
@@ -83,11 +88,42 @@ func iniciaMonitoramento() {
 }
 
 func testaSite(site string) {
-	resp, _ := http.Get(site)
+	resp, err := http.Get(site)
+	if err != nil {
+		fmt.Println("Ocorreu um erro:", err)
+	}
 
 	if resp.StatusCode == 200 {
 		fmt.Println("Site:", site, "foi carregado com sucesso!")
 	} else {
 		fmt.Println("Site:", site, "está com problemas. Status code:", resp.StatusCode)
 	}
+}
+
+func leSitesDoArquivo() []string {
+
+	var sites []string
+
+	arquivo, err := os.Open("sites.txt")
+	if err != nil {
+		fmt.Println("Ocorreu um erro:", err)
+	}
+
+	leitor := bufio.NewReader(arquivo)
+	for {
+		linha, err := leitor.ReadString('\n')
+		linha = strings.TrimSpace(linha)
+
+		sites = append(sites, linha)
+
+		if err == io.EOF {
+			break
+		}
+	}
+
+	fmt.Println(sites)
+
+	arquivo.Close()
+
+	return sites
 }
