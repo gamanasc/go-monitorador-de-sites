@@ -7,6 +7,9 @@ import (
 	"time"
 )
 
+const monitoramentos = 3
+const delay = 5
+
 func main() {
 
 	exibeIntroducao()
@@ -46,6 +49,7 @@ func leComando() int {
 	var comandoLido int
 	fmt.Scan(&comandoLido)
 	fmt.Println("O comando escolhido foi: ", comandoLido)
+	fmt.Println()
 
 	return comandoLido
 }
@@ -64,13 +68,14 @@ func iniciaMonitoramento() {
 		"https://httpbin.org/status/500",
 		"https://httpbin.org/status/200"}
 
-	for i := 0; i < 5; i++ {
+	for i := 0; i < monitoramentos; i++ {
 		// For range é o equivalente ao foreach
 		for i, site := range sites {
 			fmt.Println("Testando site", i, ":", site)
 			testaSite(site)
 		}
-		time.Sleep(5 * time.Second)
+		time.Sleep(delay * time.Second)
+		fmt.Println()
 	}
 
 	fmt.Println()
