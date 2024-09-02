@@ -1,0 +1,12 @@
+https://httpbin.org/status/404- online: false
+https://httpbin.org/status/200- online: true
+https://httpbin.org/status/500- online: false
+https://httpbin.org/status/200- online: true
+https://httpbin.org/status/404- online: false
+https://httpbin.org/status/200- online: true
+https://httpbin.org/status/500- online: false
+https://httpbin.org/status/200- online: true
+https://httpbin.org/status/404- online: false
+https://httpbin.org/status/200- online: true
+https://httpbin.org/status/500- online: false
+https://httpbin.org/status/200- online: true
